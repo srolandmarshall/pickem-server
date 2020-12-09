@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const TeamSchema = require('./team.js');
+const Team = mongoose.model('Team');
 
 
 //create schema for League
 const LeagueSchema = new Schema({
   name: String,
   sport: String,
-  teams: [TeamSchema]
+  teams: [Team.schema]
 })
 
 //create model for League
