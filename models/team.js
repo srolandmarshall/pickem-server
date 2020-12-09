@@ -3,10 +3,11 @@ const Schema = mongoose.Schema;
 
 //create schema for Team
 const TeamSchema = new Schema({
-  action: {
-    type: String,
-    required: [true, 'The Team text field is required']
-  }
+  city: String,
+  name: String,
+  abr: String,
+  conf: String,
+  div: String
 })
 
 //create model for Team
