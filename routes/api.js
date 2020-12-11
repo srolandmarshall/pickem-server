@@ -36,6 +36,18 @@ router.get("/games", (req, res, next) => {
 		.catch(next);
 });
 
+router.get("/games/final", (req, res, next) => {
+	Game.find({ "status.type.name": "STATUS_FINAL" })
+		.then((data) => res.json(data))
+		.catch(next);
+});
+
+router.get("/games/upcoming", (req, res, next) => {
+	Game.find({ "status.type.name": "STATUS_SCHEDULED" })
+		.then((data) => res.json(data))
+		.catch(next);
+});
+
 // router.post("/games", (req, res, next) => {
 // 	if (req.body) {
 // 		Game.create(req.body)

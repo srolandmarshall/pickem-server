@@ -19,31 +19,35 @@ const setGames = async () => {
 	return gameData.map(
 		(event) =>
 			new Game({
-				Date: event.date,
-				Name: event.name,
+				date: event.date,
+				name: event.name,
 				shortName: event.shortName,
-				Away: getTeamAbr(event, "AWAY"),
-				Home: getTeamAbr(event, "HOME"),
+				away: getTeamAbr(event, "AWAY"),
+				home: getTeamAbr(event, "HOME"),
 				venueName: createVenueName(event),
 				venueAddress: createAddress(event),
-				AwayTeam: getTeamByAbr(getTeamAbr(event, "AWAY")),
-				HomeTeam: getTeamByAbr(getTeamAbr(event, "HOME")),
-				Spread: event.competitions[0].odds[0],
-				Status: event.status,
-				Broadcast: event.competitions.broadcasts,
+				spread: createOdds(event),
+				status: event.status,
+				broadcast: event.competitions.broadcasts,
 			})
 	);
 };
 
+function createOdds(event) {
+	return event.competitions[0].odds ? event.competitions[0].odds[0] : null;
+}
+
 const createVenueName = (event) => {
-	event.competitions.venue ? event.competitions.venue.fullName : "N/A";
+	return event.competitions[0].venue
+		? event.competitions[0].venue.fullName
+		: "N/A";
 };
 
 const createAddress = (event) => {
-	event.competitions.venue
-		? event.competitions.venue.address.city +
-		  ", " +
-		  event.competitions.venue.address.state
+	return event.competitions[0].venue
+		? event.competitions[0].venue.address.city +
+				", " +
+				event.competitions[0].venue.address.state
 		: "N/A";
 };
 
@@ -61,12 +65,14 @@ const getTeamAbr = (event, side) => {
 	}
 };
 
-const getTeamByAbr = async (abr) => {
-	const query = Team.findOne({ abr: abr });
-	query.getFilter();
-	const team = await query.exec;
-	return team;
-};
+// const getTeamByAbr = async (abr) => {
+// 	console.log("Getting Team by abbr.");
+// 	const response = axios
+// 		.get(`/teams/by_abr/?abr=${abr}`)
+// 		.then((res) => res.data);
+
+// 	return response;
+// };
 
 mongoose
 	.connect(process.env.DB, { useNewUrlParser: true })
@@ -80,9 +86,8 @@ mongoose
 
 const createGames = async () => {
 	const games = await setGames();
-	console.log(games);
 	games.map(async (game, index) => {
-		console.log(`Saving ${game.Name}`);
+		console.log(`Saving ${game.name}`);
 		await game.save((err, res) => {
 			if (index === games.length - 1) {
 				console.log("Done seeding");
@@ -92,4 +97,14 @@ const createGames = async () => {
 	});
 };
 
-createGames();
+const clearGames = () => {
+	console.log("Deleting all the games...");
+	Game.collection.drop();
+};
+
+function run(params) {
+	clearGames();
+	createGames();
+}
+
+run();

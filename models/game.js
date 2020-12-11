@@ -1,21 +1,21 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Team = mongoose.model("Team");
+const Team = require("../models/team");
 
 //create schema for Game
 const GameSchema = new Schema({
-	Date: Date,
-	Name: String,
+	date: Date,
+	name: String,
 	shortName: String,
-	Away: String,
-	Home: String,
+	away: String,
+	home: String,
 	venueName: String,
 	venueAddress: String,
-	AwayTeam: Team.schema,
-	HomeTeam: Team.schema,
-	Spread: Object,
-	Status: Object,
-	Broadcast: Object,
+	awayTeam: Object,
+	homeTeam: Object,
+	spread: Object,
+	status: Object,
+	broadcast: Object,
 });
 
 //create model for Game
