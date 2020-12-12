@@ -1,0 +1,10 @@
+{
+	"lambda": {
+		"role": "pickem-server-executor",
+		"name": "pickem-server",
+		"region": "us-east-2"
+	},
+	"api": {
+		"id": "33gzzwtrek"
+	}
+}

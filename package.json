@@ -1,41 +1,47 @@
 {
-  "name": "pickem-server",
-  "version": "1.0.0",
-  "description": "Express Server for Pick'em App",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "seed": "node seed.js",
-    "start-watch": "nodemon index.js",
-    "dev": "concurrently \"npm run start-watch\" \"cd ../pickem-frontend && yarn start\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/srolandmarshall/pickem-server.git"
-  },
-  "keywords": [
-    "express"
-  ],
-  "author": "S. Roland Marshall",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/srolandmarshall/pickem-server/issues"
-  },
-  "homepage": "https://github.com/srolandmarshall/pickem-server#readme",
-  "dependencies": {
-    "axios": "^0.21.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "mongoose": "^5.11.5",
-    "node-fetch": "^2.6.1"
-  },
-  "devDependencies": {
-    "concurrently": "^5.3.0",
-    "nodemon": "^2.0.6"
-  },
-  "mdSeed": {
-    "seedersFolder": "./seeders",
-    "customSeederTemplate": "./game-seed.js"
-  }
+	"name": "pickem-server",
+	"version": "1.0.0",
+	"description": "Express Server for Pick'em App",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node index.js",
+		"seed": "node seed.js",
+		"start-watch": "nodemon index.js",
+		"dev": "concurrently \"npm run start-watch\" \"cd ../pickem-frontend && yarn start\"",
+		"init-claudia": "claudia generate-serverless-express-proxy --express-module index",
+		"create-api": "claudia create --handler lambda.handler --deploy-proxy-api --region us-east-2",
+		"update-api": "claudia update"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@github.com/srolandmarshall/pickem-server.git"
+	},
+	"keywords": [
+		"express"
+	],
+	"author": "S. Roland Marshall",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/srolandmarshall/pickem-server/issues"
+	},
+	"homepage": "https://github.com/srolandmarshall/pickem-server#readme",
+	"dependencies": {
+		"aws-serverless-express": "^3.4.0",
+		"axios": "^0.21.0",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"mongoose": "^5.11.5",
+		"node-fetch": "^2.6.1",
+		"serverless-http": "^2.6.0"
+	},
+	"devDependencies": {
+		"claudia": "^5.12.0",
+		"concurrently": "^5.3.0",
+		"nodemon": "^2.0.6"
+	},
+	"mdSeed": {
+		"seedersFolder": "./seeders",
+		"customSeederTemplate": "./game-seed.js"
+	}
 }
